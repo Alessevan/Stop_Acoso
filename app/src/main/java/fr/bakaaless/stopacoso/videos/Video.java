@@ -27,8 +27,14 @@ public class Video {
         }
     }
 
-    public String getName() {
+    public String getRawName() {
         return this.name;
+    }
+
+    public String getName() {
+        return " el " + this.name.replace("$", " a las ")
+                .replace("_", "/")
+                .replace("-", ":");
     }
 
     public File[] getVideos() {
@@ -38,6 +44,8 @@ public class Video {
     public String[] getRaw() {
         final String[] output = new String[2];
         for (int index = 0; index < this.videos.length; index++) {
+            if (this.videos[index] == null)
+                continue;
             final StringBuilder builder = new StringBuilder();
             try (final BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(this.videos[index])))) {
                 String line;

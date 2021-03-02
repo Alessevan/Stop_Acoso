@@ -1,5 +1,6 @@
 package fr.bakaaless.stopacoso.adapter;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 
 import fr.bakaaless.stopacoso.R;
+import fr.bakaaless.stopacoso.StopAcosoActivity;
+import fr.bakaaless.stopacoso.videos.Recorder;
 import fr.bakaaless.stopacoso.videos.Video;
 
 public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder> {
@@ -34,7 +37,9 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder> 
         final Video video = this.videos.get(position);
         holder.getText().setText(video.getName());
         holder.getButton().setOnClickListener(button -> {
-
+            final Intent intent = new Intent(StopAcosoActivity.get(), Recorder.class);
+            intent.putExtra("video", video.getRaw());
+            StopAcosoActivity.get().startActivity(intent);
         });
     }
 

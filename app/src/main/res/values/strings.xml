@@ -9,8 +9,9 @@
 
     <string name="menu_home">Página principal</string>
     <string name="menu_gallery">Documentos sobre el acoso</string>
-    <string name="_date">01/01/2020 à 13h30</string>
+    <string name="_date">el 01/01/2020 a las 00:00:00</string>
     <string name="_see">Ver</string>
     <string name="descriptionImage">Image</string>
     <string name="descImage">Image to sensibilize on bullying</string>
+    <string name="exit">Salir</string>
 </resources>

@@ -1,9 +1,11 @@
 package fr.bakaaless.stopacoso;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.hardware.Camera;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
@@ -13,6 +15,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -21,6 +24,16 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.TimeZone;
+
+import fr.bakaaless.stopacoso.ui.home.HomeViewModel;
 import fr.bakaaless.stopacoso.videos.Recorder;
 
 public class StopAcosoActivity extends AppCompatActivity {
@@ -50,7 +63,8 @@ public class StopAcosoActivity extends AppCompatActivity {
         fab.setOnClickListener(view -> {
             requestPermissions(permissions, 0);
             final Intent videoIntent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
-            startActivityForResult(videoIntent, VIDEO_REQUEST);
+            //if (videoIntent.resolveActivity(getPackageManager()) != null)
+                startActivityForResult(videoIntent, VIDEO_REQUEST);
         });
         final DrawerLayout drawer = this.findViewById(R.id.drawer_layout);
         final NavigationView navigationView = this.findViewById(R.id.nav_view);
@@ -90,14 +104,15 @@ public class StopAcosoActivity extends AppCompatActivity {
         if (!accepted) finish();
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == VIDEO_REQUEST && resultCode == RESULT_OK) {
-            /*final Calendar calendar = Calendar.getInstance();
+            final Calendar calendar = Calendar.getInstance();
             calendar.setTimeZone(TimeZone.getTimeZone("Europe/Paris"));
             @SuppressLint("SimpleDateFormat") DateFormat dateFormat = new SimpleDateFormat("dd_MM_yy$HH-mm-ss");
-            final File file = new File(HomeViewModel.VIDEOS_DIR_PATH + dateFormat.format(calendar.getTime()) + File.pathSeparator + "back.mp4");
+            final File file = new File(HomeViewModel.VIDEOS_DIR_PATH + dateFormat.format(calendar.getTime()) + "/" + "back.mp4");
             if (!file.getParentFile().exists())
                 file.getParentFile().mkdirs();
             try {
@@ -108,7 +123,6 @@ public class StopAcosoActivity extends AppCompatActivity {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            finish();*/
         }
     }
 }
